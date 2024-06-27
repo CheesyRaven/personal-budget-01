@@ -114,12 +114,6 @@ app.post('/envelopes/transfer', (req, res) => {
   });
 });
 
-// Existing route (you can keep this or modify as needed)
-app.get('/', (req, res) => {
-  const name = process.env.NAME || 'World';
-  res.send(`Hello ${name}!\n`);
-});
-
 const port = parseInt(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
