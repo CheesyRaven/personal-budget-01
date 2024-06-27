@@ -79,6 +79,41 @@ app.delete('/envelopes/:name', (req, res) => {
   res.json({ message: `Envelope '${envelopeName}' deleted` });
 });
 
+// Endpoint to transfer value between envelopes
+app.post('/envelopes/transfer', (req, res) => {
+  const { from, to, amount } = req.body;
+
+  // Input validation
+  if (!from || !to || !amount) {
+    return res.status(400).json({ error: 'From, to, and amount are required' });
+  }
+  if (!envelopes[from]) {
+    return res.status(404).json({ error: `Envelope '${from}' not found` });
+  }
+  if (!envelopes[to]) {
+    return res.status(404).json({ error: `Envelope '${to}' not found` });
+  }
+  if (envelopes[from] < amount) {
+    return res.status(400).json({ error: `Insufficient funds in envelope '${from}'` });
+  }
+
+  // Perform the transfer
+  envelopes[from] -= amount;
+  envelopes[to] += amount;
+
+  res.json({ 
+    message: `Transferred $${amount} from '${from}' to '${to}'`,
+    from: {
+      name: from,
+      amount: envelopes[from]
+    },
+    to: {
+      name: to,
+      amount: envelopes[to]
+    }
+  });
+});
+
 // Existing route (you can keep this or modify as needed)
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
