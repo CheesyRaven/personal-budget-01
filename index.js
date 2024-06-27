@@ -20,6 +20,11 @@ app.post('/envelopes', (req, res) => {
   res.status(201).json({ message: `Envelope '${name}' created with $${amount}` });
 });
 
+// Endpoint to GET all envelopes
+app.get('/envelopes', (req, res) => {
+  res.json(envelopes);
+});
+
 // Existing route (you can keep this or modify as needed)
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
