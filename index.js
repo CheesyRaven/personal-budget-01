@@ -66,6 +66,19 @@ app.put('/envelopes/:name', (req, res) => {
   });
 });
 
+// Endpoint to DELETE a specific envelope
+app.delete('/envelopes/:name', (req, res) => {
+  const envelopeName = req.params.name;
+
+  if (!envelopes[envelopeName]) {
+    return res.status(404).json({ error: `Envelope '${envelopeName}' not found` });
+  }
+
+  delete envelopes[envelopeName];
+
+  res.json({ message: `Envelope '${envelopeName}' deleted` });
+});
+
 // Existing route (you can keep this or modify as needed)
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
