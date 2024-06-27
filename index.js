@@ -5,7 +5,6 @@ const app = express();
 app.use(express.json());
 
 // Global variables
-let totalBudget = 0;
 const envelopes = {};
 
 // Endpoint to create envelopes
@@ -16,12 +15,7 @@ app.post('/envelopes', (req, res) => {
     return res.status(400).json({ error: 'Name and amount are required' });
   }
 
-  if (amount > totalBudget) {
-    return res.status(400).json({ error: 'Insufficient budget' });
-  }
-
   envelopes[name] = amount;
-  totalBudget -= amount;
 
   res.status(201).json({ message: `Envelope '${name}' created with $${amount}` });
 });
