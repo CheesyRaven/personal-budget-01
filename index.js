@@ -25,6 +25,18 @@ app.get('/envelopes', (req, res) => {
   res.json(envelopes);
 });
 
+// Endpoint to GET a specific envelope
+app.get('/envelopes/:name', (req, res) => {
+  const envelopeName = req.params.name;
+  const envelope = envelopes[envelopeName];
+
+  if (!envelope) {
+    return res.status(404).json({ error: `Envelope '${envelopeName}' not found` });
+  }
+
+  res.json({ name: envelopeName, amount: envelope });
+});
+
 // Existing route (you can keep this or modify as needed)
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
